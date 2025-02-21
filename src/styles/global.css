@@ -10,6 +10,7 @@ body {
   padding: 0;
   background-color: #ffffff;
   color: #1e293b;
+  overflow-y: hidden;
 }
 
 main {
@@ -51,6 +52,7 @@ a {
 
 button {
   padding: 0;
+  font-family: 'Plus Jakarta Sans', serif;
   border: none;
   outline: none;
 }

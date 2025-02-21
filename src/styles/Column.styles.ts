@@ -15,6 +15,18 @@ export const ColumnContainer = styled.div<{ color: string }>`
   font-weight: bold;
 `;
 
+export const EditableInput = styled.input`
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  outline: none;
+  width: 100%;
+`;
+
 export const SpacingDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -31,7 +43,9 @@ export const Circle = styled.div<{ color: string }>`
 `;
 
 export const ColumnTitle = styled.h3`
-  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
 `;
 
 export const RemoveColumnButton = styled.button`
