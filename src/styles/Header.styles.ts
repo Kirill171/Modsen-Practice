@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const HeaderRow = styled.header`
+  position: fixed;
   width: 100%;
   height: 104px;
   background-color: ${(props) => props.theme.colors.cardBackground};

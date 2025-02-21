@@ -50,8 +50,56 @@ const boardSlice = createSlice({
         column.tasks.push(action.payload.task);
       }
     },
+    updateTask: (
+      state,
+      action: PayloadAction<{
+        columnId: string;
+        taskId: string;
+        title: string;
+        description: string;
+        priority: 'Low' | 'Medium' | 'High';
+      }>
+    ) => {
+      const column = state.columns.find(
+        (col) => col.id === action.payload.columnId
+      );
+      if (column) {
+        const task = column.tasks.find(
+          (task) => task.id === action.payload.taskId
+        );
+        if (task) {
+          task.title = action.payload.title;
+          task.description = action.payload.description;
+          task.priority = action.payload.priority;
+        }
+      }
+    },
+    removeTask: (
+      state,
+      action: PayloadAction<{ columnId: string; taskId: string }>
+    ) => {
+      const column = state.columns.find(
+        (col) => col.id === action.payload.columnId
+      );
+      if (column) {
+        column.tasks = column.tasks.filter(
+          (task) => task.id !== action.payload.taskId
+        );
+      }
+    },
     addColumn: (state, action: PayloadAction<ColumnType>) => {
       state.columns.push(action.payload);
+    },
+    updateColumnTitle: (
+      state,
+      action: PayloadAction<{ columnId: string; newTitle: string }>
+    ) => {
+      const column = state.columns.find(
+        (col) => col.id === action.payload.columnId
+      );
+      if (column && !['To Do', 'In Progress', 'Done'].includes(column.title)) {
+        column.title = action.payload.newTitle;
+      }
     },
     removeColumn: (state, action: PayloadAction<string>) => {
       state.columns = state.columns.filter((col) => col.id !== action.payload);
@@ -59,6 +107,13 @@ const boardSlice = createSlice({
   }
 });
 
-export const { addTask, addColumn, removeColumn } = boardSlice.actions;
+export const {
+  addTask,
+  updateTask,
+  removeTask,
+  addColumn,
+  updateColumnTitle,
+  removeColumn
+} = boardSlice.actions;
 
 export default boardSlice.reducer;
