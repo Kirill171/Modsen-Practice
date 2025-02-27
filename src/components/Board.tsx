@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { removeColumn, addTask } from '@/store/boardSlice';
+
 import Column from '@/components/Column';
 import Task from '@/components/Task';
+import { addTask,removeColumn } from '@/store/boardSlice';
+import { RootState } from '@/store/store';
 import {
-  BoardContainer,
-  Card,
   AddTaskButton,
-  AddTaskContainer
-} from '@/styles/Board.styles';
+  AddTaskContainer,
+  BoardContainer,
+  Card} from '@/styles/Board.styles';
 import { Priority } from '@/types/priorityTypes';
+
 import TaskFormComponent from './TaskFormComponent';
 
 const Board = () => {

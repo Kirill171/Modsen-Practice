@@ -1,18 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef,useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import TrashBoxIcon from '@/assets/TrashBox.png';
+import CrosshairIcon from '@/assets/WhiteCrosshair.png';
+import { moveTask, TaskType, updateColumnTitle } from '@/store/boardSlice';
+import { RootState } from '@/store/store';
 import {
   Circle,
   ColumnContainer,
   ColumnTitle,
+  EditableInput,
   RemoveColumnButton,
   SizedImage,
-  SpacingDiv,
-  EditableInput
-} from '@/styles/Column.styles';
-import CrosshairIcon from '@/assets/WhiteCrosshair.png';
-import TrashBoxIcon from '@/assets/TrashBox.png';
-import { TaskType, moveTask, updateColumnTitle } from '@/store/boardSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+  SpacingDiv} from '@/styles/Column.styles';
 
 interface ColumnProps {
   column: {

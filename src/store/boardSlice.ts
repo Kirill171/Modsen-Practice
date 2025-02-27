@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { Priority } from '@/types/priorityTypes';
 
 export type TaskType = {

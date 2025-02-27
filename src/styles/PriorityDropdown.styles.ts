@@ -1,9 +1,9 @@
 import styled from 'styled-components';
+
 import {
-  priorityColors,
+  Priority,
   priorityBackgroundColors,
-  Priority
-} from '@/types/priorityTypes';
+  priorityColors} from '@/types/priorityTypes';
 
 export const DropdownContainer = styled.div`
   position: relative;

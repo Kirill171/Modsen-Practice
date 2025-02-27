@@ -1,9 +1,9 @@
-import {
-  priorityColors,
-  priorityBackgroundColors,
-  Priority
-} from '@/types/priorityTypes';
 import styled from 'styled-components';
+
+import {
+  Priority,
+  priorityBackgroundColors,
+  priorityColors} from '@/types/priorityTypes';
 
 export const TaskContainer = styled.div`
   display: flex;
