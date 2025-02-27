@@ -10,9 +10,9 @@ import {
 } from '@/styles/Column.styles';
 import CrosshairIcon from '@/assets/WhiteCrosshair.png';
 import TrashBoxIcon from '@/assets/TrashBox.png';
-import { TaskType } from '@/store/boardSlice';
-import { useDispatch } from 'react-redux';
-import { updateColumnTitle } from '@/store/boardSlice';
+import { TaskType, moveTask, updateColumnTitle } from '@/store/boardSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 interface ColumnProps {
   column: {
@@ -33,6 +33,7 @@ const Column: React.FC<ColumnProps> = ({
   openTaskForm
 }) => {
   const dispatch = useDispatch();
+  const columns = useSelector((state: RootState) => state.board.columns);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(column.title);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -62,8 +63,39 @@ const Column: React.FC<ColumnProps> = ({
     }
   };
 
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    const taskId = event.dataTransfer.getData('taskId');
+    const fromColumnId = event.dataTransfer.getData('fromColumnId');
+
+    if (!taskId || !fromColumnId || fromColumnId === column.id) return;
+
+    const fromColumn = columns.find((col) => col.id === fromColumnId);
+    const toColumn = columns.find((col) => col.id === column.id);
+
+    if (!fromColumn || !toColumn) return;
+
+    const fromIndex = fromColumn.tasks.findIndex((task) => task.id === taskId);
+    const toIndex = toColumn.tasks.length;
+
+    if (fromIndex === -1) return;
+
+    dispatch(
+      moveTask({ fromColumnId, toColumnId: column.id, fromIndex, toIndex })
+    );
+  };
+
   return (
-    <ColumnContainer color={column.color}>
+    <ColumnContainer
+      color={column.color}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       <SpacingDiv>
         <Circle color={column.color}>{column.tasks.length}</Circle>
         {isEditing ? (
@@ -75,7 +107,7 @@ const Column: React.FC<ColumnProps> = ({
             onKeyDown={handleKeyDown}
           />
         ) : (
-          <ColumnTitle onClick={handleTitleClick} title="Click to edit">
+          <ColumnTitle onClick={handleTitleClick} title="Click to edit Title">
             {column.title}
           </ColumnTitle>
         )}
