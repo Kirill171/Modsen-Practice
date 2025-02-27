@@ -1,11 +1,18 @@
 export const theme = {
   colors: {
-    todo: '#4f46e5',
-    inProgress: '#4f46e5',
-    done: '#4f46e5',
+    blue: '#4f46e5',
+    orange: '#f59e0b',
+    green: '#22C55e',
+    red: '#f43f5e',
+    black: '#000000',
+    white: '#ffffff',
+    lightBlue: '#eef2ff',
+    lightOrange: '#fffbeb',
+    lightGreen: '#f0fdf4',
+    lightRed: '#fff1f2',
     cardBackground: '#f8fafc',
-    background: '#ffffff',
     text: '#1e293b',
+    description: '#475569',
     border: '#e2e8f0'
   },
   spacing: {

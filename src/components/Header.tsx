@@ -13,11 +13,16 @@ import CrosshairIcon from '@/assets/DarkCrosshair.png';
 export default function Header() {
   const dispatch = useDispatch();
 
+  const getRandomHexColor = () =>
+    `#${Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0')}`;
+
   const handleAddColumn = () => {
     const newColumn = {
       id: uuidv4(),
       title: 'New Column',
-      color: '#6B7280',
+      color: getRandomHexColor(),
       tasks: []
     };
     dispatch(addColumn(newColumn));

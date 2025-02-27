@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Priority } from '@/types/priorityTypes';
 
 export type TaskType = {
   id: string;
   title: string;
   description: string;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: Priority;
 };
 
 export type ColumnType = {
@@ -57,7 +58,7 @@ const boardSlice = createSlice({
         taskId: string;
         title: string;
         description: string;
-        priority: 'Low' | 'Medium' | 'High';
+        priority: Priority;
       }>
     ) => {
       const column = state.columns.find(
@@ -103,6 +104,26 @@ const boardSlice = createSlice({
     },
     removeColumn: (state, action: PayloadAction<string>) => {
       state.columns = state.columns.filter((col) => col.id !== action.payload);
+    },
+    moveTask: (
+      state,
+      action: PayloadAction<{
+        fromColumnId: string;
+        toColumnId: string;
+        fromIndex: number;
+        toIndex: number;
+      }>
+    ) => {
+      const { fromColumnId, toColumnId, fromIndex, toIndex } = action.payload;
+      const sourceColumn = state.columns.find((col) => col.id === fromColumnId);
+      const destinationColumn = state.columns.find(
+        (col) => col.id === toColumnId
+      );
+
+      if (!sourceColumn || !destinationColumn) return;
+
+      const [movedTask] = sourceColumn.tasks.splice(fromIndex, 1);
+      destinationColumn.tasks.splice(toIndex, 0, movedTask);
     }
   }
 });
@@ -113,7 +134,8 @@ export const {
   removeTask,
   addColumn,
   updateColumnTitle,
-  removeColumn
+  removeColumn,
+  moveTask
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

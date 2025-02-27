@@ -8,43 +8,29 @@ import {
   BoardContainer,
   Card,
   AddTaskButton,
-  TaskForm,
-  TaskInput,
-  TaskTextarea,
-  SaveButton,
-  PrioritySelect,
-  ButtonsDiv,
-  CancelButton
+  AddTaskContainer
 } from '@/styles/Board.styles';
+import { Priority } from '@/types/priorityTypes';
+import TaskFormComponent from './TaskFormComponent';
 
 const Board = () => {
   const dispatch = useDispatch();
   const columns = useSelector((state: RootState) => state.board.columns);
-  const [newTaskTitle, setNewTaskTitle] = useState('');
-  const [newTaskDescription, setNewTaskDescription] = useState('');
-  const [newTaskPriority, setNewTaskPriority] = useState<
-    'Low' | 'Medium' | 'High'
-  >('Medium');
   const [activeColumnId, setActiveColumnId] = useState<string | null>(null);
 
-  const handleAddTask = (columnId: string) => {
-    if (!newTaskTitle.trim()) return;
+  const handleSaveTask = (
+    columnId: string,
+    taskData: { title: string; description: string; priority: Priority }
+  ) => {
+    if (!taskData.title.trim()) return;
 
     dispatch(
       addTask({
         columnId,
-        task: {
-          id: Date.now().toString(),
-          title: newTaskTitle,
-          description: newTaskDescription,
-          priority: newTaskPriority
-        }
+        task: { id: Date.now().toString(), ...taskData }
       })
     );
 
-    setNewTaskTitle('');
-    setNewTaskDescription('');
-    setNewTaskPriority('Medium');
     setActiveColumnId(null);
   };
 
@@ -63,43 +49,22 @@ const Board = () => {
           ))}
 
           {activeColumnId === column.id ? (
-            <TaskForm>
-              <PrioritySelect
-                value={newTaskPriority}
-                onChange={(e) =>
-                  setNewTaskPriority(
-                    e.target.value as 'Low' | 'Medium' | 'High'
-                  )
-                }
-              >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </PrioritySelect>
-              <TaskInput
-                type="text"
-                placeholder="Task title"
-                value={newTaskTitle}
-                onChange={(e) => setNewTaskTitle(e.target.value)}
+            <AddTaskContainer>
+              <TaskFormComponent
+                columnId={column.id}
+                onSave={handleSaveTask}
+                onCancel={() => setActiveColumnId(null)}
               />
-              <TaskTextarea
-                placeholder="Task description"
-                value={newTaskDescription}
-                onChange={(e) => setNewTaskDescription(e.target.value)}
-              />
-              <ButtonsDiv>
-                <SaveButton onClick={() => handleAddTask(column.id)}>
-                  Save
-                </SaveButton>
-                <CancelButton onClick={() => setActiveColumnId(null)}>
-                  Cancel
-                </CancelButton>
-              </ButtonsDiv>
-            </TaskForm>
+            </AddTaskContainer>
           ) : (
-            <AddTaskButton onClick={() => setActiveColumnId(column.id)}>
-              Add task...
-            </AddTaskButton>
+            <AddTaskContainer>
+              <AddTaskButton
+                color={column.color}
+                onClick={() => setActiveColumnId(column.id)}
+              >
+                Add task...
+              </AddTaskButton>
+            </AddTaskContainer>
           )}
         </Card>
       ))}
