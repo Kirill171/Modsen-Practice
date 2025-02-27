@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { type TaskType, removeTask, updateTask } from '@/store/boardSlice';
+
+import { removeTask, type TaskType, updateTask } from '@/store/boardSlice';
 import {
+  EditButton,
   TaskContainer,
-  TaskPriority,
-  TaskTitle,
   TaskDescription,
+  TaskPriority,
   TaskRemoveButton,
-  EditButton
-} from '@/styles/Task.styles';
-import TaskFormComponent from './TaskFormComponent';
+  TaskTitle} from '@/styles/Task.styles';
 import { Priority } from '@/types/priorityTypes';
+
+import TaskFormComponent from './TaskFormComponent';
 
 interface TaskProps {
   task: TaskType;

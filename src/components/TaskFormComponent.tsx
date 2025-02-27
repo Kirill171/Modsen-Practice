@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+
+import PriorityDropdown from '@/components/PriorityDropdown';
 import {
-  TaskInput,
-  TaskTextarea,
-  SaveButton,
   ButtonsDiv,
   CancelButton,
-  TaskForm
-} from '@/styles/TaskFormComponent.styles';
-import PriorityDropdown from '@/components/PriorityDropdown';
+  SaveButton,
+  TaskForm,
+  TaskInput,
+  TaskTextarea} from '@/styles/TaskFormComponent.styles';
 import { Priority } from '@/types/priorityTypes';
 
 interface TaskFormProps {
