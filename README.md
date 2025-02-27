@@ -1,5 +1,7 @@
 # Modsen-Practice - Тестовое задание Kanban board
 
+## Deploy - https://modsen-practice-phi.vercel.app/
+
 ## Содержание
 
 - [Техническое задание](#Техническое-задание)
