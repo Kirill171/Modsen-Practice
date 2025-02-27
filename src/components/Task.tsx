@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { type TaskType, removeTask, updateTask } from '@/store/boardSlice';
 import {
@@ -7,10 +7,10 @@ import {
   TaskTitle,
   TaskDescription,
   TaskRemoveButton,
-  EditableInput,
-  EditableTextarea,
-  PrioritySelect
+  EditButton
 } from '@/styles/Task.styles';
+import TaskFormComponent from './TaskFormComponent';
+import { Priority } from '@/types/priorityTypes';
 
 interface TaskProps {
   task: TaskType;
@@ -19,102 +19,58 @@ interface TaskProps {
 
 const Task: React.FC<TaskProps> = ({ task, columnId }) => {
   const dispatch = useDispatch();
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [isEditingPriority, setIsEditingPriority] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const [title, setTitle] = useState(task.title);
-  const [description, setDescription] = useState(task.description);
-  const [priority, setPriority] = useState(task.priority);
-
-  const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const priorityRef = useRef<HTMLSelectElement>(null);
-
-  const handleSave = () => {
-    dispatch(
-      updateTask({ columnId, taskId: task.id, title, description, priority })
-    );
+  const handleSave = (
+    columnId: string,
+    taskData: { title: string; description: string; priority: Priority }
+  ) => {
+    dispatch(updateTask({ columnId, taskId: task.id, ...taskData }));
+    setIsEditing(false);
   };
 
-  const handleBlurTitle = () => {
-    setIsEditingTitle(false);
-    if (title.trim() !== task.title) handleSave();
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+    event.dataTransfer.setData('taskId', task.id);
+    event.dataTransfer.setData('fromColumnId', columnId);
   };
 
-  const handleBlurDescription = () => {
-    setIsEditingDescription(false);
-    if (description.trim() !== task.description) handleSave();
-  };
-
-  const handleBlurPriority = () => {
-    setIsEditingPriority(false);
-    if (priority !== task.priority) handleSave();
+  const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
   };
 
   return (
-    <TaskContainer>
-      {isEditingPriority ? (
-        <PrioritySelect
-          ref={priorityRef}
-          value={priority}
-          autoFocus
-          onChange={(e) =>
-            setPriority(e.target.value as 'Low' | 'Medium' | 'High')
-          }
-          onBlur={handleBlurPriority}
-        >
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </PrioritySelect>
-      ) : (
-        <TaskPriority onClick={() => setIsEditingPriority(true)}>
-          {priority}
-        </TaskPriority>
-      )}
-
-      {isEditingTitle ? (
-        <EditableInput
-          ref={titleRef}
-          value={title}
-          autoFocus
-          onChange={(e) => setTitle(e.target.value)}
-          onBlur={handleBlurTitle}
-          onKeyDown={(e) => e.key === 'Enter' && handleBlurTitle()}
+    <TaskContainer
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      {isEditing ? (
+        <TaskFormComponent
+          columnId={columnId}
+          onSave={handleSave}
+          onCancel={() => setIsEditing(false)}
+          initialTitle={task.title}
+          initialDescription={task.description}
+          initialPriority={task.priority}
         />
       ) : (
-        <TaskTitle
-          onClick={() => setIsEditingTitle(true)}
-          title="Click to edit"
-        >
-          {task.title}
-        </TaskTitle>
+        <>
+          <TaskPriority $priority={task.priority} title="Priority">
+            {task.priority}
+          </TaskPriority>
+          <TaskTitle>{task.title}</TaskTitle>
+          <TaskDescription>{task.description}</TaskDescription>
+          <EditButton title="Edit task" onClick={() => setIsEditing(true)}>
+            ✎
+          </EditButton>
+          <TaskRemoveButton
+            title="Remove task"
+            onClick={() => dispatch(removeTask({ columnId, taskId: task.id }))}
+          >
+            ✖
+          </TaskRemoveButton>
+        </>
       )}
-
-      {isEditingDescription ? (
-        <EditableTextarea
-          ref={descriptionRef}
-          value={description}
-          autoFocus
-          onChange={(e) => setDescription(e.target.value)}
-          onBlur={handleBlurDescription}
-          onKeyDown={(e) => e.key === 'Enter' && handleBlurDescription()}
-        />
-      ) : (
-        <TaskDescription
-          onClick={() => setIsEditingDescription(true)}
-          title="Click to edit"
-        >
-          {task.description}
-        </TaskDescription>
-      )}
-
-      <TaskRemoveButton
-        onClick={() => dispatch(removeTask({ columnId, taskId: task.id }))}
-      >
-        ✖
-      </TaskRemoveButton>
     </TaskContainer>
   );
 };

@@ -20,9 +20,6 @@ export const EditableInput = styled.input`
   font-size: 16px;
   font-weight: bold;
   background: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 4px 8px;
   outline: none;
   width: 100%;
 `;
