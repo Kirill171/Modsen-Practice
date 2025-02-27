@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import {
   DropdownButton,
   DropdownContainer,
@@ -5,7 +7,6 @@ import {
   DropdownList
 } from '@/styles/PriorityDropdown.styles';
 import { priorities, Priority } from '@/types/priorityTypes';
-import React, { useState } from 'react';
 
 interface Props {
   value: Priority;
