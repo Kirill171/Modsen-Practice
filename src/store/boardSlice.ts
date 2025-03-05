@@ -122,9 +122,49 @@ const boardSlice = createSlice({
       );
 
       if (!sourceColumn || !destinationColumn) return;
+      if (fromIndex < 0 || fromIndex >= sourceColumn.tasks.length) return;
+      if (toIndex < 0 || toIndex > destinationColumn.tasks.length) return;
 
       const [movedTask] = sourceColumn.tasks.splice(fromIndex, 1);
+      if (!movedTask) return;
+
       destinationColumn.tasks.splice(toIndex, 0, movedTask);
+    },
+    moveColumn: (
+      state,
+      action: PayloadAction<{
+        fromIndex: number;
+        toIndex: number;
+      }>
+    ) => {
+      const { fromIndex, toIndex } = action.payload;
+      if (fromIndex < 0 || fromIndex >= state.columns.length) return;
+      if (toIndex < 0 || toIndex >= state.columns.length) return;
+
+      const [movedColumn] = state.columns.splice(fromIndex, 1);
+      if (!movedColumn) return;
+
+      state.columns.splice(toIndex, 0, movedColumn);
+    },
+    swapTasks: (
+      state,
+      action: PayloadAction<{
+        columnId: string;
+        fromIndex: number;
+        toIndex: number;
+      }>
+    ) => {
+      const { columnId, fromIndex, toIndex } = action.payload;
+      const column = state.columns.find((col) => col.id === columnId);
+
+      if (!column) return;
+      if (fromIndex < 0 || fromIndex >= column.tasks.length) return;
+      if (toIndex < 0 || toIndex >= column.tasks.length) return;
+      if (fromIndex === toIndex) return;
+
+      const temp = column.tasks[fromIndex];
+      column.tasks[fromIndex] = column.tasks[toIndex];
+      column.tasks[toIndex] = temp;
     }
   }
 });
@@ -136,7 +176,9 @@ export const {
   addColumn,
   updateColumnTitle,
   removeColumn,
-  moveTask
+  moveTask,
+  moveColumn,
+  swapTasks
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
