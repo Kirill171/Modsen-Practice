@@ -5,7 +5,7 @@ import {
   DropdownContainer,
   DropdownItem,
   DropdownList
-} from '@/styles/PriorityDropdown.styles';
+} from '@/components/PriorityDropdown/styled';
 import { priorities, Priority } from '@/types/priorityTypes';
 
 interface Props {

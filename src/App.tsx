@@ -1,19 +1,24 @@
-import Layout from '@components/Layout';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import Layout from '@/components/Layout';
 import { ROUTES, ROUTESCONFIG } from '@/constants/routes';
+import NotFoundPage from '@/pages/NotFoundPage';
 
-export default function App() {
+const App = () => {
   return (
     <Routes>
       <Route path={ROUTES.HOME} element={<Layout />}>
-        {ROUTESCONFIG.map(({ path, element, index }) => {
-          return (
+        {ROUTESCONFIG.filter((route) => route.path !== ROUTES.NOT_FOUND).map(
+          ({ path, element, index }) => (
             <Route key={path} path={path} element={element} index={index} />
-          );
-        })}
+          )
+        )}
       </Route>
+
+      <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
   );
-}
+};
+
+export default App;
