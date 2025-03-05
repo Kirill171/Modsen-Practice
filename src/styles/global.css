@@ -10,7 +10,7 @@ body {
   padding: 0;
   background-color: #ffffff;
   color: #1e293b;
-  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 main {

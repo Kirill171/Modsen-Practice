@@ -5,9 +5,11 @@ import {
   ButtonsDiv,
   CancelButton,
   SaveButton,
-  TaskForm,
+  TaskFormView,
   TaskInput,
-  TaskTextarea} from '@/styles/TaskFormComponent.styles';
+  TaskTextarea
+} from '@/components/TaskForm/styled';
+import { TEXTS } from '@/constants/texts';
 import { Priority } from '@/types/priorityTypes';
 
 interface TaskFormProps {
@@ -23,7 +25,7 @@ interface TaskFormProps {
   taskId?: string;
 }
 
-const TaskFormComponent: React.FC<TaskFormProps> = ({
+const TaskForm: React.FC<TaskFormProps> = ({
   columnId,
   onSave,
   onCancel,
@@ -45,28 +47,30 @@ const TaskFormComponent: React.FC<TaskFormProps> = ({
   };
 
   return (
-    <TaskForm>
+    <TaskFormView>
       <PriorityDropdown
         value={taskData.priority}
         onChange={(value) => handleChange('priority', value)}
       />
       <TaskInput
         type="text"
-        placeholder="Task title"
+        placeholder={TEXTS.clue.taskTitle}
         value={taskData.title}
         onChange={(e) => handleChange('title', e.target.value)}
       />
       <TaskTextarea
-        placeholder="Task description"
+        placeholder={TEXTS.clue.taskDescription}
         value={taskData.description}
         onChange={(e) => handleChange('description', e.target.value)}
       />
       <ButtonsDiv>
-        <SaveButton onClick={() => onSave(columnId, taskData)}>Save</SaveButton>
-        <CancelButton onClick={onCancel}>Cancel</CancelButton>
+        <SaveButton onClick={() => onSave(columnId, taskData)}>
+          {TEXTS.buttons.save}
+        </SaveButton>
+        <CancelButton onClick={onCancel}>{TEXTS.buttons.cancel}</CancelButton>
       </ButtonsDiv>
-    </TaskForm>
+    </TaskFormView>
   );
 };
 
-export default TaskFormComponent;
+export default TaskForm;

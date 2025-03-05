@@ -23,10 +23,10 @@ export const theme = {
     xlarge: '32px'
   },
   fontSizes: {
-    small: '14px',
-    medium: '18px',
-    large: '24px',
-    xlarge: '36px',
+    small: '12px',
+    medium: '14px',
+    large: '16px',
+    xlarge: '30px',
     twoXlarge: '64px'
   },
   fontWeight: {
@@ -43,6 +43,8 @@ export const theme = {
   borderRadius: {
     small: '4px',
     medium: '8px',
-    large: '12px'
+    large: '24px',
+    xlarge: '32px',
+    circle: '50%'
   }
 };

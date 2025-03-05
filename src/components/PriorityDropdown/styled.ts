@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import {
   Priority,
   priorityBackgroundColors,
-  priorityColors} from '@/types/priorityTypes';
+  priorityColors
+} from '@/types/priorityTypes';
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -19,8 +20,8 @@ export const DropdownButton = styled.button<{ $priority: Priority }>`
   padding: 4px 8px;
   border-radius: 1234px;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-weight: ${({ theme }) => theme.fontWeight.semiBold};
   width: auto;
   text-align: center;
 `;
@@ -29,10 +30,10 @@ export const DropdownList = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
-  background: white;
+  background: ${({ theme }) => theme.colors.white};
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  box-shadow: 0px 4px 8px ${({ theme }) => theme.colors.black};
   display: flex;
   flex-direction: column;
   width: 130px;
@@ -43,7 +44,8 @@ export const DropdownList = styled.div`
 export const DropdownItem = styled.div`
   padding: 6px 12px;
   cursor: pointer;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   &:hover {
-    background: #f0f0f0;
+    background: ${({ theme }) => theme.colors.cardBackground};
   }
 `;
