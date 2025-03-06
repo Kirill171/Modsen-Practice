@@ -18,15 +18,25 @@ export const theme = {
   spacing: {
     ultrasmall: '4px',
     small: '8px',
+    lightsmall: '10px',
     medium: '16px',
     large: '24px',
-    xlarge: '32px'
+    minilarge: '28px',
+    xlarge: '32px',
+    xxlarge: '64px',
+    container: '16px',
+    card: '12px',
+    button: '4px 8px',
+    taskForm: '20px',
+    headerCircle: '6px 12px',
+    HeaderContainer: '32px 16px'
   },
   fontSizes: {
     small: '12px',
     medium: '14px',
     large: '16px',
     xlarge: '30px',
+    heading: '36px',
     twoXlarge: '64px'
   },
   fontWeight: {
@@ -40,11 +50,42 @@ export const theme = {
     extraBold: 800,
     black: 900
   },
+  border: {
+    border: '1px solid #e2e8f0'
+  },
   borderRadius: {
     small: '4px',
     medium: '8px',
     large: '24px',
     xlarge: '32px',
-    circle: '50%'
+    circle: '50%',
+    button: '1234px',
+    extraLarge: '9999px'
+  },
+  layout: {
+    maxWidth: '1666px'
+  },
+  sizes: {
+    line: '1px',
+    full: '100%',
+    screen: '100vh',
+    cardWidth: '290px',
+    cardHeight: '48px',
+    imageSize: '20px',
+    headerHeight: '104px',
+    containerWidthMobile: '375px',
+    containerWidthTablet: '680px',
+    containerWidthDesktop: '1005px',
+    mobileImageSize: '20px',
+    addButtonSize: '40px',
+    burgerMenuSize: '24px',
+    burgerIconHeight: '2px',
+    burgerIconWidth: '24px',
+    burgerMenuZIndex: '1001',
+    menuOverlayZIndex: '1000',
+    mobileMenuWidth: '120px',
+    mobileMenuTop: '70px',
+    dropDownWidth: '130px',
+    dropDownMinWidth: '80px'
   }
 };

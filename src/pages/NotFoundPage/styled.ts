@@ -5,7 +5,7 @@ export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: ${({ theme }) => theme.sizes.screen};
 `;
 
 export const Content = styled.div`

@@ -1,14 +1,7 @@
-import React, { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 
 import PriorityDropdown from '@/components/PriorityDropdown';
-import {
-  ButtonsDiv,
-  CancelButton,
-  SaveButton,
-  TaskFormView,
-  TaskInput,
-  TaskTextarea
-} from '@/components/TaskForm/styled';
+import * as S from '@/components/TaskForm/styled';
 import { TEXTS } from '@/constants/texts';
 import { Priority } from '@/types/priorityTypes';
 
@@ -39,37 +32,50 @@ const TaskForm: React.FC<TaskFormProps> = ({
     priority: initialPriority
   });
 
-  const handleChange = (
-    field: keyof typeof taskData,
-    value: string | Priority
-  ) => {
-    setTaskData((prev) => ({ ...prev, [field]: value }));
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setTaskData((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
+
+  const handlePriorityChange = useCallback((priority: Priority) => {
+    setTaskData((prev) => ({ ...prev, priority }));
+  }, []);
+
+  const handleSave = useCallback(() => {
+    onSave(columnId, taskData);
+  }, [onSave, columnId, taskData]);
+
+  const memoizedTaskData = useMemo(() => taskData, [taskData]);
 
   return (
-    <TaskFormView>
+    <S.TaskFormView>
       <PriorityDropdown
-        value={taskData.priority}
-        onChange={(value) => handleChange('priority', value)}
+        value={memoizedTaskData.priority}
+        onChange={handlePriorityChange}
       />
-      <TaskInput
+      <S.TaskInput
         type="text"
+        name="title"
         placeholder={TEXTS.clue.taskTitle}
-        value={taskData.title}
-        onChange={(e) => handleChange('title', e.target.value)}
+        value={memoizedTaskData.title}
+        onChange={handleInputChange}
       />
-      <TaskTextarea
+      <S.TaskTextarea
+        name="description"
         placeholder={TEXTS.clue.taskDescription}
-        value={taskData.description}
-        onChange={(e) => handleChange('description', e.target.value)}
+        value={memoizedTaskData.description}
+        onChange={handleInputChange}
       />
-      <ButtonsDiv>
-        <SaveButton onClick={() => onSave(columnId, taskData)}>
-          {TEXTS.buttons.save}
-        </SaveButton>
-        <CancelButton onClick={onCancel}>{TEXTS.buttons.cancel}</CancelButton>
-      </ButtonsDiv>
-    </TaskFormView>
+      <S.ButtonsDiv>
+        <S.SaveButton onClick={handleSave}>{TEXTS.buttons.save}</S.SaveButton>
+        <S.CancelButton onClick={onCancel}>
+          {TEXTS.buttons.cancel}
+        </S.CancelButton>
+      </S.ButtonsDiv>
+    </S.TaskFormView>
   );
 };
 

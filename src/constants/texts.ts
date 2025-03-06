@@ -1,4 +1,8 @@
 export const TEXTS = {
+  errorMessage: {
+    loading: 'Loading...',
+    empty: 'No tasks'
+  },
   header: {
     title: 'Kanban Dashboard',
     newColumnTitle: 'New Column'

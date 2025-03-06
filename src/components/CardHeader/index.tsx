@@ -1,15 +1,7 @@
-import React from 'react';
+import { useCallback } from 'react';
 
 import CrosshairIcon from '@/assets/WhiteCrosshair.png';
-import {
-  Circle,
-  ColumnContainer,
-  ColumnTitle,
-  EditableInput,
-  RemoveColumnButton,
-  SizedImage,
-  SpacingDiv
-} from '@/components/CardHeader/styled';
+import * as S from '@/components/CardHeader/styled';
 import { TEXTS } from '@/constants/texts';
 import { useEditableTitle } from '@/hooks/useEditableTitle';
 import { type TaskType } from '@/store/boardSlice';
@@ -46,45 +38,50 @@ const CardHeader: React.FC<ColumnProps> = ({
     isRemovable
   });
 
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value),
+    [setTitle]
+  );
+
   return (
-    <ColumnContainer color={column.color}>
-      <SpacingDiv>
-        <Circle color={column.color}>{column.tasks.length}</Circle>
+    <S.ColumnContainer color={column.color}>
+      <S.SpacingDiv>
+        <S.Circle color={column.color}>{column.tasks.length}</S.Circle>
         {isEditing ? (
-          <EditableInput
+          <S.EditableInput
             ref={inputRef}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleTitleChange}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
           />
         ) : (
-          <ColumnTitle
+          <S.ColumnTitle
             onClick={handleTitleClick}
             title={TEXTS.clue.editColumnTitle}
           >
             {title}
-          </ColumnTitle>
+          </S.ColumnTitle>
         )}
-      </SpacingDiv>
+      </S.SpacingDiv>
 
-      <SpacingDiv>
-        <SizedImage
+      <S.SpacingDiv>
+        <S.SizedImage
           title={TEXTS.clue.addTask}
           src={CrosshairIcon}
           alt="Add column icon"
           onClick={openTaskForm}
         />
         {isRemovable && (
-          <RemoveColumnButton
+          <S.RemoveColumnButton
             title={TEXTS.clue.removeColumn}
             onClick={removeColumn}
           >
             ✖
-          </RemoveColumnButton>
+          </S.RemoveColumnButton>
         )}
-      </SpacingDiv>
-    </ColumnContainer>
+      </S.SpacingDiv>
+    </S.ColumnContainer>
   );
 };
 
