@@ -1,13 +1,6 @@
-import React from 'react';
+import { useCallback } from 'react';
 
-import {
-  EditButton,
-  TaskContainer,
-  TaskDescription,
-  TaskPriority,
-  TaskRemoveButton,
-  TaskTitle
-} from '@/components/Task/styled';
+import * as S from '@/components/Task/styled';
 import TaskFormComponent from '@/components/TaskForm';
 import { TEXTS } from '@/constants/texts';
 import { useTaskDragDrop } from '@/hooks/useTaskDragDrop';
@@ -35,15 +28,27 @@ const Task: React.FC<TaskProps> = ({ task, columnId, index }) => {
     handleRemove
   } = useTaskDragDrop({ task, columnId, index });
 
+  const handleDropCallback = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      handleDrop(e, columnId);
+    },
+    [handleDrop, columnId]
+  );
+
+  const handleCancelEdit = useCallback(
+    () => setIsEditing(false),
+    [setIsEditing]
+  );
+
   return (
-    <TaskContainer
+    <S.TaskContainer
       ref={taskRef}
       className="task-container"
       draggable
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
-      onDrop={(e) => handleDrop(e, columnId)}
+      onDrop={handleDropCallback}
       onDragEnd={handleDragEnd}
       $isDraggingOver={isDraggingOver}
     >
@@ -51,32 +56,32 @@ const Task: React.FC<TaskProps> = ({ task, columnId, index }) => {
         <TaskFormComponent
           columnId={columnId}
           onSave={handleSave}
-          onCancel={() => setIsEditing(false)}
+          onCancel={handleCancelEdit}
           initialTitle={task.title}
           initialDescription={task.description}
           initialPriority={task.priority}
         />
       ) : (
         <>
-          <TaskPriority $priority={task.priority} title={TEXTS.clue.priority}>
+          <S.TaskPriority $priority={task.priority} title={TEXTS.clue.priority}>
             {task.priority}
-          </TaskPriority>
-          <TaskTitle title={TEXTS.clue.taskTitle}>{task.title}</TaskTitle>
-          <TaskDescription title={TEXTS.clue.taskDescription}>
+          </S.TaskPriority>
+          <S.TaskTitle title={TEXTS.clue.taskTitle}>{task.title}</S.TaskTitle>
+          <S.TaskDescription title={TEXTS.clue.taskDescription}>
             {task.description}
-          </TaskDescription>
-          <EditButton title={TEXTS.clue.editTask} onClick={handleEdit}>
+          </S.TaskDescription>
+          <S.EditButton title={TEXTS.clue.editTask} onClick={handleEdit}>
             ✎
-          </EditButton>
-          <TaskRemoveButton
+          </S.EditButton>
+          <S.TaskRemoveButton
             title={TEXTS.clue.removeTask}
             onClick={handleRemove}
           >
             ✖
-          </TaskRemoveButton>
+          </S.TaskRemoveButton>
         </>
       )}
-    </TaskContainer>
+    </S.TaskContainer>
   );
 };
 

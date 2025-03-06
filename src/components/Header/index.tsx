@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import CrosshairIcon from '@/assets/DarkCrosshair.png';
-import {
-  AddColumnButton,
-  BurgerIcon,
-  BurgerMenu,
-  HeaderContainer,
-  HeaderRow,
-  HeaderTitle,
-  MenuOverlay,
-  MobileMenu
-} from '@/components/Header/styled';
+import * as S from '@/components/Header/styled';
 import { TEXTS } from '@/constants/texts';
 import { addColumn } from '@/store/boardSlice';
 
@@ -41,26 +32,29 @@ const Header = () => {
   };
 
   return (
-    <HeaderRow>
-      <HeaderContainer>
-        <HeaderTitle>{TEXTS.header.title}</HeaderTitle>
-        <BurgerMenu onClick={toggleMenu}>
-          <BurgerIcon className={isMenuOpen ? 'open' : ''} />
-        </BurgerMenu>
-        <AddColumnButton title={TEXTS.clue.addColumn} onClick={handleAddColumn}>
+    <S.HeaderRow>
+      <S.HeaderContainer>
+        <S.HeaderTitle>{TEXTS.header.title}</S.HeaderTitle>
+        <S.BurgerMenu onClick={toggleMenu}>
+          <S.BurgerIcon className={isMenuOpen ? 'open' : ''} />
+        </S.BurgerMenu>
+        <S.AddColumnButton
+          title={TEXTS.clue.addColumn}
+          onClick={handleAddColumn}
+        >
           <img src={CrosshairIcon} alt="crosshair icon" />
-        </AddColumnButton>
+        </S.AddColumnButton>
 
         {isMenuOpen && (
           <>
-            <MenuOverlay onClick={toggleMenu} />
-            <MobileMenu>
+            <S.MenuOverlay onClick={toggleMenu} />
+            <S.MobileMenu>
               <button onClick={handleAddColumn}>{TEXTS.clue.addColumn}</button>
-            </MobileMenu>
+            </S.MobileMenu>
           </>
         )}
-      </HeaderContainer>
-    </HeaderRow>
+      </S.HeaderContainer>
+    </S.HeaderRow>
   );
 };
 

@@ -1,13 +1,7 @@
 import TaskFormComponent from '@components/TaskForm';
-import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import {
-  AddTaskButton,
-  AddTaskContainer,
-  BoardContainer,
-  Card
-} from '@/components/Boards/styled';
+import * as S from '@/components/Boards/styled';
 import CardHeader from '@/components/CardHeader';
 import Task from '@/components/Task';
 import { TEXTS } from '@/constants/texts';
@@ -29,18 +23,35 @@ const Board = () => {
 
   if (!columns || !Array.isArray(columns)) {
     console.error('Columns is undefined or not an array:', columns);
-    return <div>Loading...</div>;
+    return <div>{TEXTS.errorMessage.loading}</div>;
   }
 
+  const handleRemoveColumn = (columnId: string) => () => {
+    dispatch(removeColumn(columnId));
+  };
+
+  const handleOpenTaskForm = (columnId: string) => () => {
+    setActiveColumnId(columnId);
+  };
+
+  const handleCloseTaskForm = () => {
+    setActiveColumnId(null);
+  };
+
+  const setCardRef = (columnId: string) => (el: HTMLDivElement | null) => {
+    if (el) {
+      cardRefs.current.set(columnId, el);
+    } else {
+      cardRefs.current.delete(columnId);
+    }
+  };
+
   return (
-    <BoardContainer>
+    <S.BoardContainer>
       {columns.map((column) => (
-        <Card
+        <S.Card
           key={column.id}
-          ref={(el) => {
-            if (el) cardRefs.current.set(column.id, el);
-            else cardRefs.current.delete(column.id);
-          }}
+          ref={setCardRef(column.id)}
           draggable
           onDragStart={(e) => handleColumnDragStart(e, column.id)}
           onDragOver={handleColumnDragOver}
@@ -48,9 +59,9 @@ const Board = () => {
         >
           <CardHeader
             column={column}
-            removeColumn={() => dispatch(removeColumn(column.id))}
+            removeColumn={handleRemoveColumn(column.id)}
             isRemovable={!['todo', 'in-progress', 'done'].includes(column.id)}
-            openTaskForm={() => setActiveColumnId(column.id)}
+            openTaskForm={handleOpenTaskForm(column.id)}
           />
           {column.tasks && Array.isArray(column.tasks) ? (
             column.tasks.map((task, index) => (
@@ -62,30 +73,30 @@ const Board = () => {
               />
             ))
           ) : (
-            <div>No tasks</div>
+            <div>{TEXTS.errorMessage.empty}</div>
           )}
           {activeColumnId === column.id ? (
-            <AddTaskContainer>
+            <S.AddTaskContainer>
               <TaskFormComponent
                 columnId={column.id}
                 onSave={handleSaveTask}
-                onCancel={() => setActiveColumnId(null)}
+                onCancel={handleCloseTaskForm}
               />
-            </AddTaskContainer>
+            </S.AddTaskContainer>
           ) : (
-            <AddTaskContainer>
-              <AddTaskButton
+            <S.AddTaskContainer>
+              <S.AddTaskButton
                 title={TEXTS.clue.addTask}
                 color={column.color}
-                onClick={() => setActiveColumnId(column.id)}
+                onClick={handleOpenTaskForm(column.id)}
               >
                 {TEXTS.buttons.add}
-              </AddTaskButton>
-            </AddTaskContainer>
+              </S.AddTaskButton>
+            </S.AddTaskContainer>
           )}
-        </Card>
+        </S.Card>
       ))}
-    </BoardContainer>
+    </S.BoardContainer>
   );
 };
 

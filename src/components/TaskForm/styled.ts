@@ -12,7 +12,7 @@ export const TaskInput = styled.input`
   color: ${(props) => props.theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   font-size: ${({ theme }) => theme.fontSizes.large};
-  width: 100%;
+  width: ${({ theme }) => theme.sizes.full};
   &::placeholder {
     color: ${(props) => props.theme.colors.text};
   }
@@ -23,8 +23,8 @@ export const TaskTextarea = styled.textarea`
   outline: none;
   color: ${(props) => props.theme.colors.description};
   font-size: ${({ theme }) => theme.fontSizes.large};
-  width: 100%;
-  height: 30px;
+  width: ${({ theme }) => theme.sizes.full};
+  height: ${({ theme }) => theme.fontSizes.xlarge};
   resize: none;
 `;
 
