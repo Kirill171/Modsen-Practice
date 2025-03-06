@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
 
-import {
-  DropdownButton,
-  DropdownContainer,
-  DropdownItem,
-  DropdownList
-} from '@/components/PriorityDropdown/styled';
+import * as S from '@/components/PriorityDropdown/styled';
 import { priorities, Priority } from '@/types/priorityTypes';
 
 interface Props {
@@ -16,28 +11,37 @@ interface Props {
 const PriorityDropdown: React.FC<Props> = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const toggleDropdown = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  const handleSelectPriority = useCallback(
+    (priority: Priority) => () => {
+      onChange(priority);
+      setIsOpen(false);
+    },
+    [onChange]
+  );
+
   return (
-    <DropdownContainer>
-      <DropdownButton onClick={() => setIsOpen(!isOpen)} $priority={value}>
-        {value ?? 'Priotity'}
-      </DropdownButton>
+    <S.DropdownContainer>
+      <S.DropdownButton onClick={toggleDropdown} $priority={value}>
+        {value ?? 'Priority'}
+      </S.DropdownButton>
 
       {isOpen && (
-        <DropdownList>
+        <S.DropdownList>
           {priorities.map((priority) => (
-            <DropdownItem
+            <S.DropdownItem
               key={priority}
-              onClick={() => {
-                onChange(priority);
-                setIsOpen(false);
-              }}
+              onClick={handleSelectPriority(priority)}
             >
               {priority}
-            </DropdownItem>
+            </S.DropdownItem>
           ))}
-        </DropdownList>
+        </S.DropdownList>
       )}
-    </DropdownContainer>
+    </S.DropdownContainer>
   );
 };
 

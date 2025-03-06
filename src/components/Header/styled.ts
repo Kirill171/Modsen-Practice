@@ -1,29 +1,29 @@
 import styled from 'styled-components';
 
 export const HeaderRow = styled.header`
-  width: 100%;
-  height: 104px;
+  width: ${({ theme }) => theme.sizes.full};
+  height: ${({ theme }) => theme.sizes.headerHeight};
   background-color: ${({ theme }) => theme.colors.cardBackground};
   position: relative;
 `;
 
 export const HeaderContainer = styled.div`
-  width: 375px;
-  height: 104px;
-  padding: 32px 16px;
+  width: ${({ theme }) => theme.sizes.containerWidthMobile};
+  height: ${({ theme }) => theme.sizes.headerHeight};
+  padding: ${({ theme }) => theme.spacing.HeaderContainer};
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
   position: relative;
 
-  @media (min-width: 680px) {
-    width: 680px;
+  @media (min-width: ${({ theme }) => theme.sizes.containerWidthTablet}) {
+    width: ${({ theme }) => theme.sizes.containerWidthTablet};
     padding: ${({ theme }) => theme.spacing.xlarge};
   }
 
-  @media (min-width: 1005px) {
-    width: 1005px;
+  @media (min-width: ${({ theme }) => theme.sizes.containerWidthDesktop}) {
+    width: ${({ theme }) => theme.sizes.containerWidthDesktop};
   }
 `;
 
@@ -33,37 +33,37 @@ export const HeaderTitle = styled.h1`
 `;
 
 export const AddColumnButton = styled.button`
-  width: 40px;
-  height: 40px;
+  width: ${({ theme }) => theme.sizes.addButtonSize};
+  height: ${({ theme }) => theme.sizes.addButtonSize};
   background-color: inherit;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: ${({ theme }) => theme.border.border};
   border-radius: ${({ theme }) => theme.borderRadius.circle};
   cursor: pointer;
   display: none;
 
-  @media (min-width: 680px) {
+  @media (min-width: ${({ theme }) => theme.sizes.containerWidthTablet}) {
     display: block;
   }
 `;
 
 export const BurgerMenu = styled.button`
-  width: 24px;
-  height: 24px;
+  width: ${({ theme }) => theme.sizes.burgerMenuSize};
+  height: ${({ theme }) => theme.sizes.burgerMenuSize};
   background: none;
   border: none;
   cursor: pointer;
   display: block;
-  z-index: 1001;
+  z-index: ${({ theme }) => theme.sizes.burgerMenuZIndex};
 
-  @media (min-width: 680px) {
+  @media (min-width: ${({ theme }) => theme.sizes.containerWidthTablet}) {
     display: none;
   }
 `;
 
 export const BurgerIcon = styled.div`
-  padding-right: 24px;
-  width: 24px;
-  height: 2px;
+  padding-right: ${({ theme }) => theme.sizes.burgerMenuSize};
+  width: ${({ theme }) => theme.sizes.burgerMenuSize};
+  height: ${({ theme }) => theme.sizes.burgerIconHeight};
   background: ${({ theme }) => theme.colors.black};
   position: relative;
   transition: all 0.3s ease;
@@ -72,8 +72,8 @@ export const BurgerIcon = styled.div`
   &:after {
     content: '';
     position: absolute;
-    width: 24px;
-    height: 2px;
+    width: ${({ theme }) => theme.sizes.burgerMenuSize};
+    height: ${({ theme }) => theme.sizes.burgerIconHeight};
     background: ${({ theme }) => theme.colors.black};
     transition: all 0.3s ease;
   }
@@ -109,21 +109,21 @@ export const MenuOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: ${({ theme }) => theme.sizes.menuOverlayZIndex};
 `;
 
 export const MobileMenu = styled.div`
   position: fixed;
-  top: 70px;
+  top: ${({ theme }) => theme.sizes.mobileMenuTop};
   right: 0px;
-  width: 120px;
-  z-index: 1001;
+  width: ${({ theme }) => theme.sizes.mobileMenuWidth};
+  z-index: ${({ theme }) => theme.sizes.burgerMenuZIndex};
 
   button {
-    width: 100%;
-    padding: 10px;
+    width: ${({ theme }) => theme.sizes.full};
+    padding: ${({ theme }) => theme.spacing.lightsmall};
     background: ${({ theme }) => theme.colors.cardBackground};
-    border: 1px solid ${({ theme }) => theme.colors.border};
+    border: ${({ theme }) => theme.border.border};
     border-radius: ${({ theme }) => theme.borderRadius.small};
     cursor: pointer;
     font-size: ${({ theme }) => theme.fontSizes.large};

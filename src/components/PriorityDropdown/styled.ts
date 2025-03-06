@@ -17,8 +17,8 @@ export const DropdownButton = styled.button<{ $priority: Priority }>`
   color: ${({ $priority, theme }) =>
     $priority ? priorityColors[$priority] : theme.colors.black};
   border: none;
-  padding: 4px 8px;
-  border-radius: 1234px;
+  padding: ${({ theme }) => theme.spacing.button};
+  border-radius: ${({ theme }) => theme.borderRadius.extraLarge};
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
@@ -28,21 +28,22 @@ export const DropdownButton = styled.button<{ $priority: Priority }>`
 
 export const DropdownList = styled.div`
   position: absolute;
-  top: 100%;
+  top: ${({ theme }) => theme.sizes.full};
   left: 0;
   background: ${({ theme }) => theme.colors.white};
-  border: 1px solid #ccc;
+  border: ${({ theme }) => theme.border.border};
   border-radius: ${({ theme }) => theme.borderRadius.medium};
-  box-shadow: 0px 4px 8px ${({ theme }) => theme.colors.black};
+  box-shadow: 0px ${({ theme }) => theme.spacing.button};
+  ${({ theme }) => theme.colors.black};
   display: flex;
   flex-direction: column;
-  width: 130px;
-  min-width: 80px;
-  z-index: 10;
+  width: ${({ theme }) => theme.sizes.dropDownWidth};
+  min-width: ${({ theme }) => theme.sizes.dropDownMinWidth};
+  z-index: ${({ theme }) => theme.sizes.burgerMenuZIndex};
 `;
 
 export const DropdownItem = styled.div`
-  padding: 6px 12px;
+  padding: ${({ theme }) => theme.spacing.headerCircle};
   cursor: pointer;
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   &:hover {
